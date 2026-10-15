@@ -1,77 +1,102 @@
-import {
-  createBottomTabNavigator,
-  createBottomTabScreen,
-} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator, createBottomTabScreen } from '@react-navigation/bottom-tabs';
 import { HeaderButton, Text } from '@react-navigation/elements';
 import { createStaticNavigation } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
   createNativeStackScreen,
 } from '@react-navigation/native-stack';
-import { Image } from 'react-native';
-import bell from '../assets/bell.png';
-import newspaper from '../assets/newspaper.png';
+import { Linking, TouchableOpacity, View, Image } from 'react-native';
 import { Home } from './screens/Home';
-import { NotFound } from './screens/NotFound';
-import { Profile } from './screens/Profile';
 import { Settings } from './screens/Settings';
-import { Updates } from './screens/Updates';
+import { History } from './screens/History';
+import Github from '../assets/Octicons-mark-github.svg';
+
+import {
+  createDrawerNavigator,
+  createDrawerScreen,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
+import Toggle from '../components/Toggle';
+import Brand from '../components/Brand';
+import { ScrollText, SearchAlert } from 'lucide-react-native';
+import { useSettingsStore } from '../store/settingStore';
+const bmc = require('../assets/bmc-button.png');
+
+function CustomDrawerContent(props: any) {
+  const settings = useSettingsStore((state) => state);
+  return (
+    <DrawerContentScrollView
+      {...props}
+
+      contentContainerStyle={{ flexGrow: 1 }}>
+      <View className="flex-row justify-around mb-5 h-[15%] items-center">
+        <View className="flex-row items-center">
+          <Brand />
+        </View>
+        <Toggle size={48} action={settings.toggleTheme} />
+      </View>
+      <DrawerItemList {...props} />
+      <View className="flex-1 items-center gap-1">
+        <View className="flex-[8] w-full h-full"></View>
+        <TouchableOpacity
+          className="w-full justify-center items-center flex-[8]"
+          onPress={() => Linking.openURL('https://buymeacoffee.com/kyle_woodward')}>
+          <Image className="w-[80%] h-full" source={bmc} resizeMode="contain" />
+        </TouchableOpacity>
+        <TouchableOpacity className="flex-[1] flex-row gap-4 w-[65%] items-center ">
+          <Github width={'15%'} height={'100%'} color={'gray'} />
+          <View
+            className="flex-[3] border-l-2 pl-2 items-center justify-center"
+            style={{ borderColor: 'gray' }}>
+            <Text
+              style={{
+                fontSize: 19,
+                color: 'gray',
+                flexWrap: 'wrap',
+                textAlign: 'center',
+              }}>
+              Made with React Native and Expo
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </DrawerContentScrollView>
+  );
+}
 
 const HomeTabs = createBottomTabNavigator({
+  screenOptions: { headerShown: false },
+
   screens: {
     Home: createBottomTabScreen({
       screen: Home,
       options: {
-        title: 'Feed',
-        tabBarIcon: ({ color, size }) => (
-          <Image
-            source={newspaper}
-            tintColor={color}
-            style={{
-              width: size,
-              height: size,
-            }}
-          />
-        ),
+        title: 'Search',
+        tabBarIcon: ({ color, size }) => <SearchAlert color={color} size={size} />,
       },
     }),
-    Updates: createBottomTabScreen({
-      screen: Updates,
+    History: createBottomTabScreen({
+      screen: History,
       options: {
-        tabBarIcon: ({ color, size }) => (
-          <Image
-            source={bell}
-            tintColor={color}
-            style={{
-              width: size,
-              height: size,
-            }}
-          />
-        ),
+        tabBarIcon: ({ color, size }) => <ScrollText size={size} color={color} />,
       },
     }),
   },
 });
+const MyDrawer = createDrawerNavigator({
+  drawerContent: CustomDrawerContent,
 
-const RootStack = createNativeStackNavigator({
   screens: {
-    HomeTabs: createNativeStackScreen({
+    Home: createDrawerScreen({
       screen: HomeTabs,
       options: {
-        title: 'Home',
-        headerShown: false,
-      },
-    }),
-    Profile: createNativeStackScreen({
-      screen: Profile,
-      linking: {
-        path: ':user(@[a-zA-Z0-9-_]+)',
-        parse: {
-          user: (value) => value.replace(/^@/, ''),
-        },
-        stringify: {
-          user: (value) => `@${value}`,
-        },
+        headerTitleAlign: 'center',
+        headerTitle: (props) => (
+          <View className="flex-row items-center justify-center">
+            <Brand />
+          </View>
+        ),
       },
     }),
     Settings: createNativeStackScreen({
@@ -85,15 +110,11 @@ const RootStack = createNativeStackNavigator({
         ),
       }),
     }),
-    NotFound: createNativeStackScreen({
-      screen: NotFound,
-      options: {
-        title: '404',
-      },
-      linking: {
-        path: '*',
-      },
-    }),
+  },
+});
+const RootStack = createNativeStackNavigator({
+  screens: {
+    HomeTabs: { screen: MyDrawer, options: { headerShown: false } },
   },
 });
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "297293976931",
+    "project_id": "remember-dict",
+    "storage_bucket": "remember-dict.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297293976931:android:b7eb66f61d8970d9eb2f56",
+        "android_client_info": {
+          "package_name": "com.dictremember"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxGI7Q5OryzN20Dptw2RKHi5F6A49yYv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

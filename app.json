@@ -1,36 +1,113 @@
 {
   "expo": {
-    "name": "dict-remember",
+    "name": "Retain",
     "slug": "dict-remember",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "scheme": "dictremember",
+    "icon": "./src/assets/icon2.png",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dictremember"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/Untitled.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.dictremember"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "bundler": "metro"
+
     },
     "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/Chonburi-Regular.ttf",
+            "./assets/Domine-Regular.ttf",
+            "./assets/Domine-Bold.ttf",
+            "./assets/Domine-Medium.ttf",
+            "./assets/Domine-SemiBold.ttf"
+          ],
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Chonburi",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/Chonburi-Regular.ttf",
+                    "weight": 400
+                  }
+                ]
+              },
+              {
+                "fontFamily": "Domine",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/Domine-Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/Domine-Bold.ttf",
+                    "weight": 700
+                  },
+                  {
+                    "path": "./assets/Domine-SemiBold.ttf",
+                    "weight": 600
+                  },
+                  {
+                    "path": "./assets/Domine-Medium.ttf",
+                    "weight": 500
+                  }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": ["./assets/Chonburi-Regular.ttf"]
+          }
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "sounds": ["./assets/silent.wav"]
+        }
+      ],
       "expo-asset",
       [
-        "expo-splash-screen",
+        "react-native-bootsplash",
         {
-          "backgroundColor": "#ffffff",
-          "image": "./assets/splash-icon.png"
+          "logo": "./src/assets/staticBrain.png",
+          "logoWidth": 542,
+          "background": "#fff",
+          "assetsDir": "./src/assets/bootsplash"
         }
-      ]
-    ]
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone.",
+          "enableBackgroundPlayback": true,
+          "enableBackgroundRecording": false
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      ["./plugins/withProcessText"],
+      "expo-font",
+      "expo-status-bar"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "06b73c30-5743-47bd-aa66-805782c45b3e"
+      }
+    },
+    "owner": "woodwa68"
   }
 }
